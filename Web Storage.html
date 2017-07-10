@@ -1,0 +1,105 @@
+
+
+    <!DOCTYPE html>  
+    <html lang="en">  
+    <head>  
+        <meta charset="UTF-8">  
+        <title>HTML本地存储之web storage（姓名，年龄，性别，邮箱，地址五个属性）</title>  
+        <style type="text/css">  
+            #content{   
+                border: 1px solid #3D19DD;   
+                width:600px;   
+                text-align:center;   
+                padding: 10px 0;   
+                margin: 0 auto;   
+            }   
+            #content input{   
+                margin-top: 10px;   
+            }   
+        </style>  
+    </head>  
+    <body>  
+      <div id="content">  
+         <label for="user_num">年龄：</label>     
+        <input type="text" id="user_num" name="user_num" />  
+        <br/>  
+        <label for="user_name">姓名：</label>     
+        <input type="text" id="user_name" name="user_name" />     
+        <br/>     
+        <label for="eamil">邮箱：</label>     
+        <input type="text" id="eamil" name="eamil"/>     
+        <br/>     
+        <label for="sex">性别：</label>     
+        <input type="text" id="sex" name="sex"/>     
+        <br/>   
+          <label for="site">地址：</label>     
+        <input type="text" id="site" name="site"/>     
+        <br/>  
+        <input type="button" onclick="save()" value="添加名单"/>     
+        <hr/>     
+        <label for="search_num">输入年龄：</label>     
+        <input type="text" id="search_num" name="search_num"/>     
+        <input type="button" onclick="find()" value="查找信息"/>     
+        <p id="find_result"><br/></p>  
+        <hr/>  
+         <input type="button" onclick="show()" value="显示所有" />    
+         <div id="list">     
+         </div>    
+    </div>     
+    <br />   
+        <script type="text/javascript">
+        	/*存储*/
+function save(){     
+        var user_num = document.getElementById("user_num").value;   
+        var user_nameElement = document.getElementById("user_name").value;   
+        var gradeeamil = document.getElementById("eamil").value;     
+        var sexElement = document.getElementById("sex").value;  
+        var siteaddres = document.getElementById("site").value;
+        var msg = {   
+            user_name: user_nameElement,    
+            sex: sexElement,  
+            eamil:gradeeamil,
+            addres:siteaddres
+        };    
+        localStorage.setItem(user_num,JSON.stringify(msg));     
+    }   
+       /*查找*/
+      
+      function find(){
+       var user_num = document.getElementById("search_num").value; 
+      	var str = localStorage.getItem(user_num);
+      	 var msg = JSON.parse(str);
+      	 var find_result = document.getElementById("find_result");
+      	 find_result.innerHTML = "年龄："+ user_num +",姓名："+msg.user_name+",邮箱："+msg.eamil +",性别："+msg.sex+",地址："+msg.addres;
+      	
+      }
+      
+      /*显示全部*/
+     
+     function show(){
+     	var list=document.getElementById("list");
+     	if(localStorage.length>0){
+     	var table = "<table border='1' style='width:300px; margin:0 auto;' >"
+     	    table+="<tr><td>年龄</td>	<td>姓名</td> <td>邮箱</td> <td>性别</td> <td>地址</td></tr>"
+     	    for(var i=0;i<localStorage.length;i++){
+     	    	var user_num =localStorage.key(i); 
+     	    	var str= localStorage.getItem(user_num);
+     	    	var msg = JSON.parse(str);
+     	    	table += "<tr><td>"+user_num+"</td>	<td>"+msg.user_name+"</td> <td>"+msg.eamil+"</td> <td>"+msg.sex+"</td> <td>"+msg.addres+"</td></tr>";
+     	    	
+     	    }
+     	   table+="</table>";
+     	   list.innerHTML=table;
+     	  }else{
+     	  	 list.innerHTML = "当前还没有数据";  
+     	  }
+     }
+     
+       
+        </script>
+        
+        
+        
+    </body>  
+    </html>  
+
